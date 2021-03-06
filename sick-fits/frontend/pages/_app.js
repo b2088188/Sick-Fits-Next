@@ -1,5 +1,13 @@
 import Page from "../components/Page";
 import { createGlobalStyle } from "styled-components";
+import Nprogress from "nprogress";
+import Router from "next/router";
+import "nprogress/nprogress.css";
+import "../components/styles/nprogress.css";
+
+Router.events.on("routeChangeStart", () => Nprogress.start());
+Router.events.on("routeChangeComplete", () => Nprogress.done());
+Router.events.on("routeChangeError", () => Nprogress.done());
 
 const GlobalStyle = createGlobalStyle`
 	@font-face{
