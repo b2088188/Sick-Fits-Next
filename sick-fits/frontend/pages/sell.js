@@ -1,6 +1,10 @@
-import Page from "../components/Page";
+import CreateProduct from '../components/CreateProduct';
 const SellPage = () => {
-	return <div>Hello</div>;
+	return (
+		<div>
+			<CreateProduct />
+		</div>
+	);
 };
 
 export default SellPage;
