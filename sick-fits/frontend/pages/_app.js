@@ -1,13 +1,16 @@
-import Page from "../components/Page";
-import { createGlobalStyle } from "styled-components";
-import Nprogress from "nprogress";
-import Router from "next/router";
-import "nprogress/nprogress.css";
-import "../components/styles/nprogress.css";
+import { useRef } from 'react';
+import Page from '../components/Page';
+import { createGlobalStyle } from 'styled-components';
+import Nprogress from 'nprogress';
+import Router from 'next/router';
+import 'nprogress/nprogress.css';
+import '../components/styles/nprogress.css';
+import { QueryClient, QueryClientProvider } from 'react-query';
+import { Hydrate } from 'react-query/hydration';
 
-Router.events.on("routeChangeStart", () => Nprogress.start());
-Router.events.on("routeChangeComplete", () => Nprogress.done());
-Router.events.on("routeChangeError", () => Nprogress.done());
+Router.events.on('routeChangeStart', () => Nprogress.start());
+Router.events.on('routeChangeComplete', () => Nprogress.done());
+Router.events.on('routeChangeError', () => Nprogress.done());
 
 const GlobalStyle = createGlobalStyle`
 	@font-face{
@@ -28,6 +31,7 @@ const GlobalStyle = createGlobalStyle`
 	}
 	html{
 		box-sizing:border-box;
+		font-size:62.5%;
 	}
 	*,
 	*:before,
@@ -56,10 +60,16 @@ const GlobalStyle = createGlobalStyle`
 `;
 
 const MyApp = ({ Component, pageProps }) => {
+	const queryClientRef = useRef();
+	if (!queryClientRef.current) queryClientRef.current = new QueryClient();
 	return (
 		<Page>
 			<GlobalStyle />
-			<Component {...pageProps} />
+			<QueryClientProvider client={queryClientRef.current}>
+				<Hydrate state={pageProps.dehydratedState}>
+					<Component {...pageProps} />
+				</Hydrate>
+			</QueryClientProvider>
 		</Page>
 	);
 };
