@@ -3,7 +3,7 @@ import Form from './styles/Form';
 import { useMutation, useQueryClient } from 'react-query';
 import ErrorMessage from '../components/ErrorMessage';
 import { client } from '../lib/api-client';
-import gql from 'graphql-tag';
+import { useRouter } from 'next/router';
 
 // photo:{
 // 	create:{
@@ -32,20 +32,24 @@ function createProductMutation(inputs) {
 }
 
 function CreateProduct() {
+	const { push } = useRouter();
 	const queryClient = useQueryClient();
 	const { inputs, handleChange, resetForm, clearForm } = useForm({
 		name: '',
 		price: 0
 	});
-	const { mutate: create, isLoading, error } = useMutation({
+	const { data: product, mutate: create, isLoading, error } = useMutation({
 		mutationFn: (inputs) =>
 			client(``, { method: 'POST', query: createProductMutation(inputs) })
-				.then(({ data }) => data.allProducts)
+				.then(({ data }) => data.createProduct)
 				.catch((err) => {
 					throw err;
 				}),
-
-		onSettled: () => queryClient.invalidateQueries('products')
+		onSettled: () => queryClient.invalidateQueries('products'),
+		onSuccess: (product) =>
+			push({
+				pathname: `/product/${product.id}`
+			})
 	});
 
 	async function onSubmit(e) {
