@@ -2,21 +2,7 @@ import { useQuery } from 'react-query';
 import { client } from '../lib/api-client';
 import styled from 'styled-components';
 import Product from './Product';
-
-const ALL_PRODUCTS_QUERY = ` query ALL_PRODUCTS_QUERY{
-	allProducts{
-		id
-		name
-		price
-		description
-		photo{
-			id
-			image{
-				publicUrlTransformed
-			}
-		}
-	}
-}`;
+import { getAllProductsQuery } from '../lib/query/product';
 
 const ProductsList = styled.div`
 	display: grid;
@@ -24,13 +10,17 @@ const ProductsList = styled.div`
 	grid-gap: 60px;
 `;
 
-function Products() {
-	const { data: products } = useQuery({
-		queryKey: 'products',
+function Products({ page }) {
+	const { data: products, isLoading } = useQuery({
+		queryKey: ['products', { page }],
 		queryFn: () =>
-			client(``, { method: 'POST', query: ALL_PRODUCTS_QUERY }).then(
-				({ data }) => data.allProducts
-			)
+			client(``, {
+				method: 'POST',
+				query: getAllProductsQuery({
+					page
+				})
+			}).then(({ data }) => data.allProducts),
+		placeholderData: []
 	});
 
 	return (

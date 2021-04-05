@@ -5,7 +5,7 @@ import { useQuery } from 'react-query';
 import { client } from '../lib/api-client';
 import { getAllProductsCountQuery } from '../lib/query/product';
 
-function Pagination({ page = 1 }) {
+function Pagination({ page }) {
 	const { data: count, isLoading, isSuccess } = useQuery({
 		queryKey: 'products-count',
 		queryFn: () =>

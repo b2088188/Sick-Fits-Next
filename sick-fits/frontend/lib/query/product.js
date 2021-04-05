@@ -18,9 +18,15 @@ function getProductQuery(productId) {
 `;
 }
 
-function getAllProductsQuery() {
+function getAllProductsQuery({ page = 1 } = {}) {
+   const skip = (page - 1) * process.env.NEXT_PUBLIC_PER_PAGE;
+   const first = process.env.NEXT_PUBLIC_PER_PAGE;
+
    return ` query ALL_PRODUCTS_QUERY{
-  allProducts{
+  allProducts(
+  first:${first}
+  skip:${skip}
+  ){
     id
     name
     price
