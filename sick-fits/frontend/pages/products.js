@@ -3,9 +3,15 @@ import { client } from '../lib/api-client';
 import { QueryClient, useQuery } from 'react-query';
 import { dehydrate } from 'react-query/hydration';
 import { getAllProductsQuery } from '../lib/query/product';
+import Pagination from '../components/Pagination';
 
 const ProductPage = () => {
-	return <Products />;
+	return (
+		<>
+			<Products />
+			<Pagination />
+		</>
+	);
 };
 
 export async function getStaticProps() {

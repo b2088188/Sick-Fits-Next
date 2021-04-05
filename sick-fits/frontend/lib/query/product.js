@@ -35,4 +35,14 @@ function getAllProductsQuery() {
 }`;
 }
 
-export { getProductQuery, getAllProductsQuery };
+function getAllProductsCountQuery() {
+   return `
+  query{
+  _allProductsMeta{
+    count
+  }
+}
+  `;
+}
+
+export { getProductQuery, getAllProductsQuery, getAllProductsCountQuery };
