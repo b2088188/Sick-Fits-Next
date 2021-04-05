@@ -1,7 +1,7 @@
 //import { queryClient } from '../context';
 const apiURL = 'http://localhost:3000/api/graphql';
 //process.env.REACT_APP_API_URL;
-async function client(endpoint, { query, token, headers: customHeaders, ...customConfig } = {}) {
+async function client(endpoint, { query, headers: customHeaders, ...customConfig } = {}) {
    const config = {
       body: query
          ? JSON.stringify({

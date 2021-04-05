@@ -8,7 +8,8 @@ function useForm(initialState = {}) {
 		if (type === 'number') {
 			inputValue = Number(value);
 		} else if (type === 'file') {
-			inputValue[0] = e.target.files;
+			// inputValue = e.target.files[0];
+			[inputValue] = e.target.files;
 		} else {
 			inputValue = value;
 		}
