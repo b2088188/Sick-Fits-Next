@@ -15,6 +15,18 @@ function Product({ product }) {
 			</Title>
 			<PriceTag>{formatMoney(product.price)}</PriceTag>
 			<p>{product.description}</p>
+			<div className='buttonList'>
+				<Link
+					href={{
+						pathname: 'update',
+						query: {
+							productId: product.id
+						}
+					}}
+				>
+					Edit
+				</Link>
+			</div>
 		</ItemStyles>
 	);
 }
