@@ -20,4 +20,15 @@ function updateProductMutation(updates) {
 	`;
 }
 
-export { updateProductMutation };
+function deleteProductMutation(id) {
+	return `
+	mutation{
+  deleteProduct(id:"${id}"){
+    id
+    name
+  }
+}
+	`;
+}
+
+export { updateProductMutation, deleteProductMutation };
