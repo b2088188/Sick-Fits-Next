@@ -18,6 +18,19 @@ function signInMutation({ email, password }) {
 	`;
 }
 
+function signUpMutation({ email, name, password }) {
+	return `
+	mutation{
+		createUser(data:{email:"${email}",name:"${name}",password:"${password}"}){
+			id
+			email
+			name
+    }
+		
+	}
+	`;
+}
+
 function signOutMutation() {
 	return `
 	mutation{
@@ -26,4 +39,4 @@ function signOutMutation() {
 	`;
 }
 
-export { signInMutation, signOutMutation };
+export { signInMutation, signOutMutation, signUpMutation };
