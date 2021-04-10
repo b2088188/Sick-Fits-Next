@@ -7,6 +7,7 @@ import 'nprogress/nprogress.css';
 import '../components/styles/nprogress.css';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { Hydrate } from 'react-query/hydration';
+import { CartProvider } from '../context/cart-context';
 
 Router.events.on('routeChangeStart', () => Nprogress.start());
 Router.events.on('routeChangeComplete', () => Nprogress.done());
@@ -72,12 +73,14 @@ const MyApp = ({ Component, pageProps }) => {
 		});
 	return (
 		<QueryClientProvider client={queryClientRef.current}>
-			<Page>
-				<GlobalStyle />
-				<Hydrate state={pageProps.dehydratedState}>
-					<Component {...pageProps} />
-				</Hydrate>
-			</Page>
+			<CartProvider>
+				<Page>
+					<GlobalStyle />
+					<Hydrate state={pageProps.dehydratedState}>
+						<Component {...pageProps} />
+					</Hydrate>
+				</Page>
+			</CartProvider>
 		</QueryClientProvider>
 	);
 };
