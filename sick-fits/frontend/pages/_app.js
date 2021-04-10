@@ -63,14 +63,14 @@ const MyApp = ({ Component, pageProps }) => {
 	const queryClientRef = useRef();
 	if (!queryClientRef.current) queryClientRef.current = new QueryClient();
 	return (
-		<Page>
-			<GlobalStyle />
-			<QueryClientProvider client={queryClientRef.current}>
+		<QueryClientProvider client={queryClientRef.current}>
+			<Page>
+				<GlobalStyle />
 				<Hydrate state={pageProps.dehydratedState}>
 					<Component {...pageProps} />
 				</Hydrate>
-			</QueryClientProvider>
-		</Page>
+			</Page>
+		</QueryClientProvider>
 	);
 };
 
