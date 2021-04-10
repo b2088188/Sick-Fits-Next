@@ -18,4 +18,12 @@ function signInMutation({ email, password }) {
 	`;
 }
 
-export { signInMutation };
+function signOutMutation() {
+	return `
+	mutation{
+		endSession
+	}
+	`;
+}
+
+export { signInMutation, signOutMutation };

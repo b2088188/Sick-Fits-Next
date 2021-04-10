@@ -3,6 +3,7 @@ import NavStyles from './styles/NavStyles';
 import { useQuery } from 'react-query';
 import { getCurrentUserQuery } from '../lib/query/user';
 import { client } from '../lib/api-client';
+import SignOut from './SignOut';
 
 function Nav() {
 	const { data: user } = useQuery({
@@ -21,6 +22,7 @@ function Nav() {
 					<Link href='/sell'>Sell</Link>
 					<Link href='/orders'>Orders</Link>
 					<Link href='/account'>Account</Link>
+					<SignOut>Sign Out</SignOut>
 				</>
 			) : (
 				<Link href='/signin'>Sign In</Link>
