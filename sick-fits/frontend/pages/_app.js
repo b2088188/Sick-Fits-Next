@@ -61,7 +61,15 @@ const GlobalStyle = createGlobalStyle`
 
 const MyApp = ({ Component, pageProps }) => {
 	const queryClientRef = useRef();
-	if (!queryClientRef.current) queryClientRef.current = new QueryClient();
+	if (!queryClientRef.current)
+		queryClientRef.current = new QueryClient({
+			defaultOptions: {
+				queries: {
+					refetchOnWindowFocus: false,
+					retry: false
+				}
+			}
+		});
 	return (
 		<QueryClientProvider client={queryClientRef.current}>
 			<Page>

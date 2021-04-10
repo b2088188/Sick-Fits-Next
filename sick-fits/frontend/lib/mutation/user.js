@@ -39,4 +39,26 @@ function signOutMutation() {
 	`;
 }
 
-export { signInMutation, signOutMutation, signUpMutation };
+function requestResetMutation({ email }) {
+	return `
+	mutation{
+		sendUserPasswordResetLink(email:"${email}"){
+			code
+			message
+		}
+	}
+	`;
+}
+
+function resetMutation({ email, token, password }) {
+	return `
+	mutation{
+		redeemUserPasswordResetToken(email:"${email}",token:"${token}",password:"${password}"){
+			code
+			message
+		}
+	}
+	`;
+}
+
+export { signInMutation, signOutMutation, signUpMutation, requestResetMutation, resetMutation };
