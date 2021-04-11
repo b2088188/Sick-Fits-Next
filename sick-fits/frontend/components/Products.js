@@ -26,7 +26,7 @@ function Products({ page }) {
 	return (
 		<div>
 			<ProductsList>
-				{products.map((el) => (
+				{products?.map((el) => (
 					<Product product={el} key={el.id} />
 				))}
 			</ProductsList>

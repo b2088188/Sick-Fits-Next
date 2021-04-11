@@ -1,6 +1,6 @@
 import { gql } from 'graphql-request';
 
-const getCurrentUserQuery = gql`
+const getCurrentUserQuery = `
 	query {
 		authenticatedItem {
 			... on User {

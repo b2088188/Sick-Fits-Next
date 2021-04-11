@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import formatMoney from '../lib/formatMoney';
 import calcTotalPrice from '../lib/calcTotalPrice';
 import { useCart } from '../context/cart-context';
+import { client } from '../lib/api-client';
 
 const CartItemStyles = styled.div`
 	padding: 1rem 0;
@@ -25,44 +26,33 @@ const CartItemStyles = styled.div`
 `;
 
 function Cart() {
-	const { data: user, isLoading } = useQuery({
+	const { data: user } = useQuery({
 		queryKey: 'user',
 		queryFn: () =>
-			request('http://localhost:3000/api/graphql', getCurrentUserQuery).then((res) => ({
-				id: '60442879bcb49a1db8a64e70',
-				name: 'Shunze',
-				email: 'shunze@gmail.com'
-			}))
-	});
-	const { data: cartItems } = useQuery({
-		queryKey: ['cart-items', { user }],
-		queryFn: () =>
-			request('http://localhost:3000/api/graphql', getAllCartItemsQuery).then(
-				(res) => res.allCartItems
-			),
-		placeholderData: [],
-		enabled: !!user
+			client('', { method: 'POST', query: getCurrentUserQuery }).then((res) => {
+				if (!data.authenticatedItem) return null;
+				return data.authenticatedItem;
+			})
 	});
 
 	const { cartOpen, setCartOpen } = useCart();
 
-	if (isLoading) return null;
-	return (
+	return user ? (
 		<CartStyles open={cartOpen}>
 			<header>
 				<Supreme>{user.name}'s Cart</Supreme>
 			</header>
 			<CloseButton onClick={() => setCartOpen(false)}>&times;</CloseButton>
 			<ul>
-				{cartItems.map((el) => {
+				{user.cart.map((el) => {
 					return <CartItem key={el.id} cartItem={el} />;
 				})}
 			</ul>
 			<footer>
-				<p>{formatMoney(calcTotalPrice(cartItems))}</p>
+				<p>{formatMoney(calcTotalPrice(user.cart))}</p>
 			</footer>
 		</CartStyles>
-	);
+	) : null;
 }
 
 function CartItem({ cartItem }) {

@@ -5,18 +5,20 @@ import { getCurrentUserQuery } from '../lib/query/user';
 import { request } from 'graphql-request';
 import SignOut from './SignOut';
 import { useCart } from '../context/cart-context';
+import { client } from '../lib/api-client';
 
 function Nav() {
 	const { data: user } = useQuery({
 		queryKey: 'user',
 		queryFn: () =>
-			request('http://localhost:3000/api/graphql', getCurrentUserQuery).then((res) => ({
-				id: '60442879bcb49a1db8a64e70',
-				name: 'Shunze',
-				email: 'shunze@gmail.com'
-			}))
+			client('', { method: 'POST', query: getCurrentUserQuery }).then(({ data }) => {
+				if (!data.authenticatedItem) return null;
+				return data.authenticatedItem;
+			})
 	});
+
 	const { setCartOpen } = useCart();
+
 	return (
 		<NavStyles>
 			<Link href='/products'>Products</Link>

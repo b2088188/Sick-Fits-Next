@@ -12,6 +12,7 @@ async function client(endpoint, { query, headers: customHeaders, ...customConfig
          'Content-Type': query ? 'application/json' : undefined,
          ...customHeaders
       },
+      credentials: 'include',
       ...customConfig
    };
 
