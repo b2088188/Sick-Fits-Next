@@ -13,10 +13,7 @@ function SignIn() {
 		onSuccess: ({ data }) => {
 			if (data.authenticateUserWithPassword.code === 'FAILURE')
 				throw data.authenticateUserWithPassword;
-			const {
-				authenticateUserWithPassword: { item }
-			} = data;
-			queryClient.setQueryData('user', item);
+			queryClient.invalidateQueries('user');
 		}
 	});
 

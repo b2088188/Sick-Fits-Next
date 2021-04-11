@@ -10,4 +10,14 @@ addToCart(productId:"${productId}"){
 `;
 }
 
-export { addToCartMutation };
+function removeFromCartMutation(id) {
+	return `
+	mutation {
+		deleteCartItem(id:"${id}"){
+			id
+		}
+	}
+	`;
+}
+
+export { addToCartMutation, removeFromCartMutation };

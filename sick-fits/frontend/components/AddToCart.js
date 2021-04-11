@@ -1,14 +1,23 @@
 import { addToCartMutation } from '../lib/mutation/cart';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { request } from 'graphql-request';
 import { client } from '../lib/api-client';
+import { useCart } from '../context/cart-context';
 
 function AddToCart({ id, children }) {
-	const { mutate: addToCart } = useMutation({
-		mutationFn: ({ id }) => client('', { method: 'POST', query: addToCartMutation(id) })
+	const queryClient = useQueryClient();
+	const { mutate: addToCart, isLoading } = useMutation({
+		mutationFn: ({ id }) => client('', { method: 'POST', query: addToCartMutation(id) }),
+		onSettled: () => queryClient.invalidateQueries('user'),
+		onSuccess: () => setCartOpen(true)
 	});
+	const { setCartOpen } = useCart();
 
-	return <button onClick={() => addToCart({ id })}>{children}</button>;
+	return (
+		<button disabled={isLoading} onClick={() => addToCart({ id })}>
+			{children}
+		</button>
+	);
 }
 
 export default AddToCart;

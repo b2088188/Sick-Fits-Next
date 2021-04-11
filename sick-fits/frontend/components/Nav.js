@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import NavStyles from './styles/NavStyles';
+import CartCount from './CartCount';
 import { useQuery } from 'react-query';
 import { getCurrentUserQuery } from '../lib/query/user';
 import { request } from 'graphql-request';
@@ -28,7 +29,14 @@ function Nav() {
 					<Link href='/orders'>Orders</Link>
 					<Link href='/account'>Account</Link>
 					<SignOut>Sign Out</SignOut>
-					<button onClick={() => setCartOpen(true)}>My Cart</button>
+					<button onClick={() => setCartOpen(true)}>
+						My Cart
+						<CartCount
+							count={user.cart.reduce((acc, cur) => {
+								return acc + cur.quantity;
+							}, 0)}
+						/>
+					</button>
 				</>
 			) : (
 				<Link href='/signin'>Sign In</Link>
