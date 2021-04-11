@@ -51,4 +51,27 @@ function getAllProductsCountQuery() {
   `;
 }
 
-export { getProductQuery, getAllProductsQuery, getAllProductsCountQuery };
+function searchProductsQuery(searchTerm) {
+   return `
+  query{
+    searchTerms:allProducts(
+    where:{
+      OR:[
+      {name_contains_i:"${searchTerm}"}
+      {description_contains_i:"${searchTerm}"}
+      ]
+    }
+    ){
+      id
+      name
+      photo{
+        image{
+          publicUrlTransformed
+        }
+      }
+    }
+  }
+  `;
+}
+
+export { getProductQuery, getAllProductsQuery, getAllProductsCountQuery, searchProductsQuery };
